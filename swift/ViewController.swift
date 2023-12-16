@@ -2,78 +2,69 @@ import UIKit
 import SnapKit
 
 class ViewController: UIViewController {
-
+    
+    private lazy var backIcon: UIButton = {
+        let button = UIButton()
+        button.layer.cornerRadius = 20
+        button.clipsToBounds = true
+        button.setImage(UIImage(named: "back"), for: .normal)
+        return button
+    }()
+    
+    private lazy var text: UILabel = {
+        let label = UILabel()
+        label.text = "Мои товары"
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        return label
+    }()
+    
+    private lazy var box: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "box")
+        return imageView
+    }()
+    
+    private lazy var text1: UILabel = {
+        let label = UILabel()
+        label.text = "Ой, пусто!"
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        return label
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let view1 = UIView()
-        let view2 = UIView()
-        let view3 = UIView()
-
-        view1.backgroundColor = .red
-        view2.backgroundColor = .green
-        view3.backgroundColor = .blue
-
-        view.addSubview(view1)
-        view.addSubview(view2)
-        view.addSubview(view3)
-
-        let equalHeight = view.frame.height / 3
-
-        view1.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
-            make.height.equalTo(equalHeight)
-        }
-
-        view2.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview()
-            make.top.equalTo(view1.snp.bottom)
-            make.height.equalTo(equalHeight)
-            
-        }
-
-        view3.snp.makeConstraints { make in
-            make.leading.trailing.bottom.equalToSuperview()
-            make.top.equalTo(view2.snp.bottom)
-            make.height.equalTo(equalHeight)
-        }
-
-        let subview1 = UIView()
-        subview1.backgroundColor = .blue
-
-        view1.addSubview(subview1)
-
-        subview1.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-            
-            make.height.equalTo(50)
+        
+        view.backgroundColor = .white
+        
+        view.addSubview(text)
+        view.addSubview(text1)
+        view.addSubview(backIcon)
+        view.addSubview(box)
+        
+        setupConstraints() // Call setupConstraints after adding subviews
+    }
+    
+    private func setupConstraints() {
+        backIcon.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(30)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
             make.width.equalTo(50)
-            make.centerX.equalTo(10)
-        }
-
-        let subview2 = UIView()
-        subview2.backgroundColor = .red
-
-        view2.addSubview(subview2)
-
-        subview2.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
             make.height.equalTo(50)
-            make.width.equalTo(50)
-            make.centerX.equalTo(10)
         }
-
-        let subview3 = UIView()
-        subview3.backgroundColor = .yellow
-
-        view3.addSubview(subview3)
-
-        subview3.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-            
-            make.height.equalTo(50)
-            make.width.equalTo(50)
-            make.centerX.equalTo(10)
+        
+        text.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(30)
+        }
+        
+        box.snp.makeConstraints { make in
+            make.centerX.centerY.equalToSuperview()
+            make.width.equalTo(100)
+            make.height.equalTo(100)
+        }
+        text1.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(box.snp.bottom).offset(30)
         }
     }
 }

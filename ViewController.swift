@@ -1,141 +1,154 @@
-//
-//  ViewController.swift
-//  ClassWork14.10
-//
-//  Created by Raiymbek Azharbayev on 14.10.2023.
-//
-
 import UIKit
 import SnapKit
 
-class ViewController: UIViewController {
+final class ViewController: UIViewController {
     
-    private let backgroundColor = UIColor(named: "BackgroundColor")
-    private let accentColor = UIColor(named: "AccentColor")
+    private let names = ["IOS Task", "Data Analysis Assignment", "UI Homework", "Mat.Stat Practice", "Mat.Stat Assignment", "Midterm Data Analysis", "Yoga", "Stretching", "Cleaning day", "UI Presentation", "Big Theme Discussion"]
+    private let images = ["Any 2", "Any 4", "Any 3", "Any 5", "Any 6", "Any 7", "Any 8", "Any 9", "Any 10", "Any 11", "Any 12"]
+    
+    private let sections = ["To Do", "Done(10)", "In Progress(8)"]
 
+    
+    private lazy var namesTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.register(NameTableViewCell.self, forCellReuseIdentifier: "NameTableViewCell")
+        return tableView
+    }()
+    
+    private lazy var doneTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.register(NameTableViewCell.self, forCellReuseIdentifier: "NameTableViewCell")
+        return tableView
+    }()
+    
+    private lazy var inProgressTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.register(NameTableViewCell.self, forCellReuseIdentifier: "NameTableViewCell")
+        return tableView
+    }()
+    
+    private lazy var ToDo: UILabel = {
+        let label = UILabel()
+        label.text = "To Do List"
+        label.textColor = .black
+        label.font = .boldSystemFont(ofSize: 30)
+        label.textAlignment = .center
+        return label
+    }()
+
+    private lazy var tasks: UILabel = {
+        let label = UILabel()
+        label.text = "8 tasks, 3 completed"
+        label.textColor = .lightGray
+        return label
+    }()
+    
+    private lazy var calendar: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "Any")
+        return imageView
+    }()
+    
+    private var search: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "Any 1")
+        return imageView
+    }()
+    
+    private lazy var yest: UILabel = {
+        let label = UILabel()
+        label.text = "YESTERDAY"
+        label.textColor = .black
+        
+        return label
+    }()
+    
+    private lazy var today: UILabel = {
+        let label = UILabel()
+        label.text = "TODAY"
+        label.textColor = .white
+        label.backgroundColor = .black
+        label.layer.cornerRadius = 15
+        label.layer.masksToBounds = true
+        label.textAlignment = .center
+        return label
+    }()
+
+
+    
+    private lazy var tomorrow: UILabel = {
+        let label = UILabel()
+        label.text = "TOMORROW"
+        label.textColor = .black
+        return label
+    }()
+    
+    private lazy var kiki: UIView = {
+        let view = UIView()
+        view.backgroundColor = .lightGray
+        return view
+    }()
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = backgroundColor
+        view.backgroundColor = .systemBackground
+        namesTableView.dataSource = self
+        namesTableView.delegate = self
         
         setupUI()
     }
-    
-    private lazy var iconView: UIImageView = {
-        var imageView = UIImageView()
-        imageView.image = UIImage(named: "IconView")
-        return imageView
-    }()
-    
-    private lazy var titleLabel: UILabel = {
-        var label = UILabel()
-        label.text = "Profile Polish"
-        label.textColor = .black
-        label.font = .boldSystemFont(ofSize: 30)
-        return label
-    }()
-
-    private lazy var captionLabel: UILabel = {
-        var label = UILabel()
-        label.text = "Let's add images of you doing exciting stuff to spice up your profile"
-        label.textColor = .darkGray
-        label.font = .systemFont(ofSize: 20)
-        label.textAlignment = .center
-        label.lineBreakMode = .byWordWrapping
-        label.numberOfLines = 3
-        return label
-    }()
-    
-    private lazy var imagesView = UIStackView()
-    
-    private lazy var firstImage: UIImageView = {
-        var imageView = UIImageView()
-        imageView.image = UIImage(named: "MainImage")
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
-    
-    private lazy var secondImage: UIImageView = {
-        var imageView = UIImageView()
-        imageView.image = UIImage(named: "SecondImage")
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
-    
-    private lazy var thirdImage: UIImageView = {
-        var imageView = UIImageView()
-        imageView.image = UIImage(named: "ThirdImage")
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
-    
-    private lazy var changeButton: UIButton = {
-        var button = UIButton()
-        button.setTitle("Change", for: .normal)
-        button.titleLabel?.font = .boldSystemFont(ofSize: 20)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .lightGray
-        button.layer.cornerRadius = 20
-        return button
-    }()
-    
-    private lazy var changeSecondButton: UIButton = {
-        var button = UIButton()
-        button.setTitle("Change", for: .normal)
-        button.titleLabel?.font = .boldSystemFont(ofSize: 14)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .lightGray
-        button.layer.cornerRadius = 14
-        return button
-    }()
-    
-    private lazy var addButton: UIButton = {
-        var button = UIButton()
-        button.setTitle("Add", for: .normal)
-        button.titleLabel?.font = .boldSystemFont(ofSize: 14)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = UIColor(named: "AddColor")
-        button.layer.cornerRadius = 14
-        return button
-    }()
-    
-    private lazy var connectButton: UIButton = {
-        var button = UIButton()
-        button.setTitle("Or connect Instagram", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = .boldSystemFont(ofSize: 16)
-//        button.layer.shadowOffset = .init(width: 10, height: 20)
-        button.layer.borderWidth = 3
-        button.layer.cornerRadius = 30
-        return button
-    }()
-    
-    private lazy var altLabel: UILabel = {
-        var label = UILabel()
-        label.text = "To display your images on your profile"
-        label.textColor = .lightGray
-        label.font = .systemFont(ofSize: 15)
-        return label
-    }()
-    
-    private lazy var finishButton: UIButton = {
-        var button = UIButton()
-        button.setTitle("Finish", for: .normal)
-        button.titleLabel?.font = .boldSystemFont(ofSize: 20)
-        button.backgroundColor = accentColor
-        button.layer.cornerRadius = 30
-        return button
-    }()
-    
-    private lazy var progressView: UIProgressView = {
-        var progressView = UIProgressView()
-        progressView.setProgress(0.7, animated: true)
-        progressView.progressViewStyle = .default
-        progressView.trackTintColor = .black
-        return progressView
-    }()
 }
 
+extension ViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch section {
+        case 0:
+            return 10
+        case 1:
+            return 5
+        case 2:
+            return 5
+        default:
+            return 0
+        }
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 3
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return sections[section]
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "NameTableViewCell", for: indexPath) as! NameTableViewCell
+
+        switch indexPath.section {
+        case 0:
+            cell.configure(name: names[indexPath.row], imageName: images[indexPath.row])
+        case 1:
+            cell.configure(name: names[indexPath.row], imageName: images[indexPath.row])
+        default:
+            cell.configure(name: names[indexPath.row], imageName: images[indexPath.row])
+        }
+        return cell
+    }
+}
+
+
+//MARK: - Table view delegate methods
+extension ViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        (view.window?.windowScene?.screen.bounds.height ?? 0) * 0.1
+    }
+}
+
+// MARK: - UI setup methods
 private extension ViewController {
     
     func setupUI() {
@@ -144,126 +157,75 @@ private extension ViewController {
     }
     
     func setupViews() {
-        view.addSubview(iconView)
-        view.addSubview(titleLabel)
-        view.addSubview(captionLabel)
+        view.addSubview(namesTableView)
+        view.addSubview(ToDo)
+        view.addSubview(tasks)
+        view.addSubview(calendar)
+        view.addSubview(search)
+        view.addSubview(kiki)
+        kiki.addSubview(yest)
+        kiki.addSubview(today)
+        kiki.addSubview(tomorrow)
         
-        imagesView.addSubview(firstImage)
-        imagesView.addSubview(secondImage)
-        imagesView.addSubview(thirdImage)
-        
-        view.addSubview(imagesView)
-        
-        view.addSubview(changeButton)
-        view.addSubview(changeSecondButton)
-        view.addSubview(addButton)
-        view.addSubview(connectButton)
-        view.addSubview(altLabel)
-        view.addSubview(finishButton)
-        view.addSubview(progressView)
     }
+    
+
+
     
     func setupConstraints() {
-        let width = view.frame.width
-        let height = view.frame.height
-        
-        iconView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(20)
+        namesTableView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(10)
+            make.top.equalTo(yest.snp.bottom).offset(20)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
         
-        titleLabel.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalTo(iconView.snp.bottom).offset(20)
+        ToDo.snp.makeConstraints{ make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.leading.equalTo(calendar.snp.trailing).offset(50)
         }
         
-        captionLabel.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalTo(titleLabel.snp.bottom).offset(10)
-            $0.width.equalTo(view.safeAreaLayoutGuide.snp.width).multipliedBy(0.9)
+        tasks.snp.makeConstraints { make in
+            make.top.equalTo(calendar.snp.bottom).inset(20)
+            make.leading.equalTo(115)
         }
         
-        imagesView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalTo(captionLabel.snp.bottom).offset(20)
-            $0.width.equalTo(view.safeAreaLayoutGuide.snp.width).multipliedBy(0.9)
-            $0.height.equalTo(view.safeAreaLayoutGuide.snp.width).multipliedBy(0.9)
+        calendar.snp.makeConstraints{ make in
+            make.leading.equalTo(20)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
         }
         
-        firstImage.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.left.equalToSuperview().offset(20)
-            $0.width.equalTo(width / 2)
-            $0.height.equalTo(width / 2 * 1.5)
+        search.snp.makeConstraints{ make in
+            make.leading.equalTo(ToDo.snp.trailing).offset(70)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(5)
         }
         
-        changeButton.snp.makeConstraints {
-            $0.centerX.equalTo(firstImage)
-            $0.bottom.equalTo(firstImage).inset(15)
-            $0.width.equalTo(firstImage.snp.width).multipliedBy(0.8)
+        yest.snp.makeConstraints{ make in
+            make.leading.equalTo(20)
+            make.centerY.equalTo(kiki.snp.centerY)
+           
         }
         
-        secondImage.snp.makeConstraints {
-            $0.top.equalTo(firstImage.snp.top)
-            $0.right.equalToSuperview().inset(20)
-            $0.width.equalTo(width / 4 * 0.95)
-            $0.height.equalTo(width / 4 * 1.5 * 0.95)
+        today.snp.makeConstraints { make in
+            make.leading.equalTo(yest.snp.trailing).offset(50)
+            make.centerY.equalTo(kiki.snp.centerY)
+            make.trailing.equalTo(tomorrow.snp.leading).offset(-50)
+            make.width.equalTo(80)
+            make.height.equalTo(30)
+        }
+
+        
+        tomorrow.snp.makeConstraints{ make in
+            make.trailing.equalTo(-20)
+            make.centerY.equalTo(kiki.snp.centerY)
+            
         }
         
-        changeSecondButton.snp.makeConstraints {
-            $0.centerX.equalTo(secondImage)
-            $0.bottom.equalTo(secondImage).inset(15)
-            $0.width.equalTo(secondImage.snp.width).multipliedBy(0.8)
-        }
         
-        thirdImage.snp.makeConstraints {
-            $0.bottom.equalTo(firstImage.snp.bottom)
-            $0.right.equalToSuperview().inset(20)
-            $0.width.equalTo(width / 4 * 0.95)
-            $0.height.equalTo(width / 4 * 1.5 * 0.95)
-        }
+        kiki.snp.makeConstraints { make in
+            make.width.equalToSuperview().multipliedBy(1)
+            make.height.equalToSuperview().multipliedBy(0.05)
+            make.top.equalTo(tasks.snp.bottom).offset(20)                      }
         
-        addButton.snp.makeConstraints {
-            $0.centerX.equalTo(thirdImage)
-            $0.bottom.equalTo(thirdImage).inset(15)
-            $0.width.equalTo(thirdImage.snp.width).multipliedBy(0.8)
-        }
-        
-        connectButton.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalTo(imagesView.snp.bottom)
-            $0.height.equalTo(width / 7)
-            $0.width.equalTo(imagesView.snp.width).multipliedBy(0.7)
-        }
-        
-        altLabel.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalTo(connectButton.snp.bottom).offset(10)
-        }
-        
-        finishButton.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.bottom.equalTo(progressView.snp.bottom).inset(20)
-            $0.height.equalTo(width / 6)
-            $0.width.equalTo(imagesView.snp.width).multipliedBy(0.8)
-        }
-        
-        progressView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(20)
-            $0.width.equalTo(connectButton.snp.width)
-        }
-        
-        borderingImage(firstImage)
-        borderingImage(secondImage)
-        borderingImage(thirdImage)
     }
     
-    func borderingImage(_ image: UIImageView) {
-        image.layer.masksToBounds = true
-        image.layer.cornerRadius = 10
-        image.layer.borderWidth = 5
-        image.layer.borderColor = accentColor!.cgColor
-    }
 }
-

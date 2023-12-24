@@ -1,8 +1,8 @@
 //
 //  AppDelegate.swift
-//  hellokitty
+//  qaraqat
 //
-//  Created by Belgibayeva Karakat on 23.10.2023.
+//  Created by Belgibayeva Karakat on 14.10.2023.
 //
 
 import UIKit
